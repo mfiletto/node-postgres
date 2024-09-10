@@ -3,16 +3,29 @@ const { models } = require('../libs/sequelize');
 
 class UsersService {
   constructor() {
-    this.users = [];
-    this.pool = pool;
-    this.pool.on('error', (err, client) => {
-      console.error('Unexpected error on idle client', err);
-      process.exit(-1);
-    });
   }
 
   async getUsers() {
     const rta = await models.User.findAll();
+    return rta;
+  }
+
+  async createUser(data) {
+    const rta = await models.User.create(data);
+    return rta;
+  }
+
+  async updateUser(id, changes) {
+    const rta = await models.User.update(changes, {
+      where: { id }
+    });
+    return rta;
+  }
+
+  async deleteUser(id) {
+    const rta = await models.User.destroy({
+      where: { id }
+    });
     return rta;
   }
 }

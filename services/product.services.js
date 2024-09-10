@@ -1,5 +1,6 @@
 const getConnection = require('../libs/postgres');
 const pool = require('../libs/postgres_pool');
+const sequelize = require('../libs/sequelize');
 
 class ProductsService {
   constructor() {
@@ -14,8 +15,10 @@ class ProductsService {
   async getProducts() {
     const query = 'SELECT * FROM products';
     /* using pool */
-    const response = await this.pool.query(query);
-    return response.rows;
+    /* const response = await this.pool.query(query); */
+    /* using sequelize */
+    const [data, metadata] = await sequelize.query(query);
+    return {data, metadata};
   }
 
   async getProduct(id) {

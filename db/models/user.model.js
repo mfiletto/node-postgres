@@ -22,6 +22,11 @@ const UserSchema = {
     allowNull: false,
     unique: true,
   },
+  role: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'user'
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
@@ -46,4 +51,4 @@ class UserModel extends Model {
   }
 }
 
-module.exports = { UserModel, UserSchema, UserModel };
+module.exports = { UserModel, UserSchema, USER_TABLE };

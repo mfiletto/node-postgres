@@ -9,7 +9,6 @@ const port = 3005;
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  console.log('fac', faker);
   const products = [];
   for (let i = 0; i < 10; i++) {
     products.push({

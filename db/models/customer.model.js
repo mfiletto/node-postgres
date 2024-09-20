@@ -1,19 +1,19 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const USER_TABLE = 'users';
+const CUSTOMER_TABLE = 'customers';
 
-const UserSchema = {
-  id: {
+const CustomerSchema = {
+  customer_id: {
     allowNull: false,
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  username: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  password: {
+  last_name: {
     type: DataTypes.STRING,
     allowNull: false
   },
@@ -22,33 +22,40 @@ const UserSchema = {
     allowNull: false,
     unique: true,
   },
-  role: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    defaultValue: 'user'
-  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
     field: 'created_at',
     defaultValue: Sequelize.NOW
   },
+  userId: {
+    field: 'user_id',
+    allowNull: false,
+    unique: true,
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'users',
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  }
 };
 
-class User extends Model {
+class Customer extends Model {
   // static means that the method is called on the class itself, not on an instance of the class
   static associate(models) {
-    // define relationships here
+    this.belongsTo(models.User, { as: 'user' });
   }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: USER_TABLE,
-      modelName: 'User',
+      tableName: CUSTOMER_TABLE,
+      modelName: 'Customer',
       timestamps: false
     };
   }
 }
 
-module.exports = { User, UserSchema, USER_TABLE };
+module.exports = { Customer, CustomerSchema, CUSTOMER_TABLE };
